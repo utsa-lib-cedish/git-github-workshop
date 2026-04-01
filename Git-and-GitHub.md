@@ -74,7 +74,33 @@ Remember: always check the state of your index before staging and committing. Ru
 
 ## Commits
 
+A commit is a snapshot of the index at a given moment. It records the changes made to a repository since the previous commit. A commit is the only way to introduce changes to the repository, and each commit carries a record of who made it, thus enforcing accountability and ensuring that the history of the project is recoverable through the logs.
 
+To commit your changes to the repo, use the `git commit -m` command. The -m option stands for "message". Each commit must carry a commit message describing what the changes are. Optionally, more information can be added if you enter the interactive text editor.
+
+![A WebStorm window showing a git commit command](images/first-repo-7-commit.png)
+
+You now have a commit. You can see the commit history with the `git log` command. 
+
+![A WebStorm window showing a git log command](images/first-repo-8-git-log.png)
+
+The Git log command shows the commit history ordered from the latest commit backward. In Git, each commit knows its parent commit and that's it. This particular commit is special because it's the *root* commit so it has no parent.
+
+The output of the `git log` command shows the *SHA1 hash* of the commit object. This is a unique identifier. Git takes SHA1 hashes of everything in its repo object stores. You generally reference a commit by its hash. You can usually use just the first few characters of the hash. After the hash, it shows the commit author, the commit date, and the first line of the commit message, which in this case is the complete commit message.
+
+Let's keep developing now. Let's say I add some more content to my web page.
+
+![A WebStorm window showing new content in an html file and a new git status, git add, and git commit sequence](images/first-repo-9-second-commit.png)
+
+After making some changes to the web page, I am satisified with my work and I want to commit it to the repo again. How much work to do before committing is a matter of personal preference and team policy. The general rule of thumb is to commit when you've got a significant change ready, or when you've done enough work that you would not like to lose. Or, if you realize the project is in a stable condition and you are about to make some potentially hazardous or experimental changes. When you make a commit, it's like a save point and you can always recover that state at any time.
+
+As always, check your index first by running `git status`. This shows me that the only untracked changes are my changes to `index.html`. I will stage these. Notice that I use the `git add -A` command. This means "add all untracked changes to the index". Then I make my second commit.
+
+Now when I run `git log` again, I can see both commits. 
+
+![A WebStorm window showing the output of a git log command](images/first-repo-10-second-git-log.png)
+
+From now on my workflow will involve checking the index, staging changes, and committing my work to the repo.
 
 ## Feature branches for team projects
 
