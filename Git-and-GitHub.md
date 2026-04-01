@@ -22,7 +22,57 @@ When you start a project in JetBrains IDEs and add a new file, the IDE will ask 
 
 ![A WebStorm window asking if the user wants to commit a file to Git](images/first-repo-1.png)
 
+Open a terminal window.
+
+![A WebStorm window showing how to open the Terminal](images/ffirst-repo-3-git-status.png)
+
+Enter the command `git status`. By default, JetBrains IDEs usually create a Git repo for you automatically whenever you create a new project. If this was the case, you should see an output from `git status`. Otherwise you will see an error message like `fatal: not a git repository (or any of the parent directories): .git`. This message tells you that a Git repository has not been created yet. If that is the case, enter `git init` to start your repository. Then, enter `git status`.
+
+After the git repo is initialized and I have added some files, my `git status` command will show me the *index*. 
+
+Working with Git is a three part process. You work on your files in your working directory. Then you *stage* your changes in the index. Finally, you *commit* your changes to the repository. The index keeps track of what you want to commit. 
+
+There are three kinds of files in Git: tracked, ignored, and untracked. This is reflected in the output of `git status`:
+
+![A WebStorm window showing the output of a git status command ](images/first-repo-3-git-status.png)
+
+In green you can see there is a new file called `.idea/.gitignore`. This file is ready to commit. It is being tracked.
+
+In red we have "Untracked files". These include several files in the `.idea` folder as well as our `index.html` file.
+
+The `.idea` folder is where JetBrains IDEs keep their user preferences and project settings. These settings are not part of the application development process. They are usually specific to the user. If you commit them to the repository, when you share your work with other developers, they will get your preferences and settings and these may override theirs. For this reason, we do not commit the `.idea` folder to the repo. Instead, we want to *ignore* it.
+
+It looks like our IDE automatically staged a file for us when the repo was initialized. This not desirable. The repo should only contain what we want it to contain. This is an example of why it is always important to examine the state of the Git index before committing, so you are sure that you are committing everything you want and only what you want.
+
+Let's fix these problems before proceeding. First, we need to ignore the `.idea` folder and all its contents. To do this, we need to create a special file called `.gitignore`. We create this in our project's *root* directory.
+
+![A WebStorm window showing a gitignore file](images/first-repo-4-gitignore.png)
+
+Notice we have put `.idea` in the gitignore file. This tells Git to ignore the directory and all its contents. But wait ... the IDE already staged a file inside the directory. And that file is also called `.gitignore`. What is going on here?
+
+This is one of the more confusing aspects of working with JetBrains IDEs. There is a `.idea` folder, and inside it there is a `.idea/.gitignore` file. But this gitignore belongs to the IDE and its settings. Since it is inside the `.idea` folder, it *only* affects the contents of that folder. It is *not* the same as your project gitignore. 
+
+In fact, you should also personally ignore the contents of the `.idea` folder and treat it as a black box. Don't confuse that gitignore with your project gitignore.
+
+Since the IDE already staged its own `.idea/.gitignore` file, and we don't want that, we are going to *unstage* it. To unstage a file prior to committing, run `git rm --cached <name-of-file>`. In this case, we run `git rm --cached .idea/.gitignore`. Do this for any file you have accidentally staged, or that you staged but then you realized you do don't want to commit it.
+
+![A WebStorm window showing a git rm --cached command and the output of a git status command](images/first-repo-5-unstage.png)
+
+Notice here we remove the `.idea/.gitignore` file from the index. Then we run `git status` again. Now, the index reflects our own work and only our own work. There are no files showing in green with the message "Ready to commit". This means our index is empty. There are two files that are untracked. Git sees that these files have been modified in our working directory but have not been staged. 
+
+Our next step is to stage the files. We can do this by naming the files individually as arguments to a `git add` command: `git add .gitignore index.html`. It is more typical to add all the unstaged files at once with the `git add -A` command. But sometimes you don't want to stage everything, so it is important to also be able to add them individually as needed. 
+
+![A WebStorm window showing a git add command and the output of a git status command](images/first-repo-6-stage.png)
+
+Here we can see that after staging our files, our .gitignore and index.html files are ready to be committed.
+
+Best practice when working with Git is to stage files after you've modified them enough that you may want to save them. That doesn't mean committing immediately. You may want to work on several files before committing. You may commit right after staging, or you may work on a file, stage it, work on another file, stage it, realize you want to work on the first file again, stage the changes, and then commit. 
+
+Staging a file copies it to the Git object store, so when time comes to commit, Git doesn't have to do the work of creating copies of your file contents. It's one of the many ways Git ensures that it is quick and efficient.
+
 ## Commits
+
+
 
 ## Feature branches for team projects
 
