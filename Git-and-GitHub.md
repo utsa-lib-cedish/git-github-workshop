@@ -14,7 +14,7 @@ Git was invented by Linus Torvalds, the inventor of Linux, because he couldn't f
 6. Supports and encourages branched development. Branches allow different developers and teams to work on their own features and eventually merge the features back into the project.
 7. Free. You might eventually pay for hosting Git repos used by large teams, or for useful web-based graphical interfaces to manage Git repos, but Git itself is completely free.
 
-## Your Git repo
+## Your Git repo and the Git index
 
 Git works with *repositories*. Git users generally refer to a repository as a *repo*. To illustrate Git workflows I will be using a JetBrains IDE, WebStorm. The interface is similar to other JetBrains IDEs or to VSCode. The commands are the same whether or not one uses an IDE or a command line terminal.
 
@@ -24,7 +24,7 @@ When you start a project in JetBrains IDEs and add a new file, the IDE will ask 
 
 Open a terminal window.
 
-![A WebStorm window showing how to open the Terminal](images/ffirst-repo-3-git-status.png)
+![A WebStorm window showing how to open the Terminal](images/first-repo-2-terminal.png)
 
 Enter the command `git status`. By default, JetBrains IDEs usually create a Git repo for you automatically whenever you create a new project. If this was the case, you should see an output from `git status`. Otherwise you will see an error message like `fatal: not a git repository (or any of the parent directories): .git`. This message tells you that a Git repository has not been created yet. If that is the case, enter `git init` to start your repository. Then, enter `git status`.
 
@@ -69,6 +69,8 @@ Here we can see that after staging our files, our .gitignore and index.html file
 Best practice when working with Git is to stage files after you've modified them enough that you may want to save them. That doesn't mean committing immediately. You may want to work on several files before committing. You may commit right after staging, or you may work on a file, stage it, work on another file, stage it, realize you want to work on the first file again, stage the changes, and then commit. 
 
 Staging a file copies it to the Git object store, so when time comes to commit, Git doesn't have to do the work of creating copies of your file contents. It's one of the many ways Git ensures that it is quick and efficient.
+
+Remember: always check the state of your index before staging and committing. Run `git status` before running `git add`. 
 
 ## Commits
 
