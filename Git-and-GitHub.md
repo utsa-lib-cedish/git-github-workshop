@@ -102,17 +102,75 @@ Now when I run `git log` again, I can see both commits.
 
 From now on my workflow will involve checking the index, staging changes, and committing my work to the repo.
 
+# GitHub
+
+If we want to work collaboratively in a team, we need to share our repo. The simplest and most common way to do that is through GitHub. GitHub was started originally to facilitate collaboration on open source projects, but it was so useful that private companies started using it for their own collaborative development projects.
+
+## GitHub credentials
+
+To log in to GitHub you just need an account with a password, although 2FA is always good to have. However, to do a *push* (a repo upload or update), GitHub prefers the SSH protocol, so you need to have an SSH key and share the public key with GitHub.
+
+### SSH keys on a Mac
+
+On a Mac, open a Terminal window. You can click on the magnifying glass on the top right of the menu bar to open the Mac Spotlight feature. Type Terminal to get to a Terminal icon and double click it or hit the return key to open it.
+
+![A Mac desktop showing the cursor over the magnifying glass and a search box with the word "Terminal" typed in](images/github-1-terminal.png)
+
+Enter the command `cd ~/.ssh` to navigate to your SSH directory. Then enter `ls -a` to see if you have any key pairs. You would see something like `id_rsa` and `id_rsa.pub` or `id_ed25519` and `id_ed25519.pub`. If you do not see any key pairs you will need to generate one by entering `ssh-keygen -t ed25519 -C "your_email@example.com"`.
+
+GitHub prefers EdDSA keys (with the ed25519 signature) but RSA will also work. 
+
+Copy your *public* key signature to your clipboard. Use this command: `pbcopy < ~/.ssh/id_ed25519.pub`. 
+
+### SSH keys on a Windows
+
+On a Windows system, open a PowerShell. Select "Run as Administrator". 
+
+![A Windows desktop showing a search for Powershell with the option to open Powershell as administrator on the right](images/github-3-ssh-3.png)
+
+Navigate to your home directory with the commmand `cd ~`. Now check if you have an SSH directory using the `Get-ChildItem -Hidden` command.
+
+![A Windows Powershell open with the commands issued to navigate to the home folder and to show hidden files](images/github-3-ssh-4.png)
+
+If there is no `.ssh` folder, create it by typing `mkdir .ssh`. Now you are ready to create your SSH key. Type `ssh-keygen -o -a 100 -t ed25519 -f $env:USERPROFILE\.ssh\id_ed25519 -C`. When prompted to enter a passphrase, just hit return. You will now have a key pair in a folder called `.ssh` in your home directory.
+
+![A Windows Powershell open with the commands to create a .ssh directory and to generate an EdDSA key pair](images/github-3-ssh-5.png)
+
+To open the file in a text editor, type `notepad ~\.ssh\id_ed25519.pub`. Make **sure** you add the `.pub` ending so you are copying the public key, not the private key. Then type Ctl+A to select the contents of the file and Ctl+C to copy the contents to your clipboard.
+
+### Add the SSH key to your GitHub account
+
+Now that you have generated an SSH key, you need to add it to your GitHub account. First navigate to your Account Settings. 
+
+![A browser window showing the GitHub website with the cursor hovering over the Account Settings link](images/github-2-ssh-2.png)
+
+Then, select "SSH and GPG keys".
+
+![A browser window showing the GitHub website with the cursor hovering over the SSH and GPG keys link](images/github-3-ssh-6.png)
+
+Click on "New SSH key".
+
+![A browser window showing the GitHub website with the cursor hovering over the SSH and GPG keys link](images/github-3-ssh-7.png)
+
+Name your SSH key. SSH keys are specific to devices, so I usually name mine with the name of the device and its purpose. If you use a different computer, this SSH key will not work. Then paste the contents of the SSH public key into the box labeled "Key".
+
+![A browser window showing the GitHub website with the cursor hovering over the SSH and GPG keys link](images/github-3-ssh-8.png)
+
+## Pushing to a GitHub repo
+
+You are now ready to set up your repo on GitHub. 
+
 ## Feature branches for team projects
 
 ## Merging branches
 
 ## Handling merge conflicts
 
-## GitHub credentials
+
 
 ## Setting your upstream remote
 
-## Pushing main to GitHub
+
 
 ## Pushing a branch to GitHub
 
