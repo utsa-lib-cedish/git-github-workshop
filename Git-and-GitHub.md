@@ -114,6 +114,8 @@ To log in to GitHub you just need an account with a password, although 2FA is al
 
 On a Mac, open a Terminal window. You can click on the magnifying glass on the top right of the menu bar to open the Mac Spotlight feature. Type Terminal to get to a Terminal icon and double click it or hit the return key to open it.
 
+Your Terminal instance will look different because I have customized my terminal's appearance and I use bash instead of the default zshell program.
+
 ![A Mac desktop showing the cursor over the magnifying glass and a search box with the word "Terminal" typed in](images/github-1-terminal.png)
 
 Enter the command `cd ~/.ssh` to navigate to your SSH directory. Then enter `ls -a` to see if you have any key pairs. You would see something like `id_rsa` and `id_rsa.pub` or `id_ed25519` and `id_ed25519.pub`. If you do not see any key pairs you will need to generate one by entering `ssh-keygen -t ed25519 -C "your_email@example.com"`.
@@ -121,6 +123,8 @@ Enter the command `cd ~/.ssh` to navigate to your SSH directory. Then enter `ls 
 GitHub prefers EdDSA keys (with the ed25519 signature) but RSA will also work. 
 
 Copy your *public* key signature to your clipboard. Use this command: `pbcopy < ~/.ssh/id_ed25519.pub`. 
+
+![A Mac Terminal window showing the commands to change directory to the ssh key directory, list the contents, and copy the contents of an ssh key to the clipboard](images/github-2-ssh-2a.png)
 
 ### SSH keys on a Windows
 
@@ -156,9 +160,45 @@ Name your SSH key. SSH keys are specific to devices, so I usually name mine with
 
 ![A browser window showing the GitHub website with the cursor hovering over the SSH and GPG keys link](images/github-3-ssh-8.png)
 
+## Creating a GitHub repo
+
+You are now ready to set up your repo on GitHub. Click on the plus sign and select "New repository".
+
+![A browser window showing the GitHub website with the cursor hovering over the SSH and GPG keys link](images/github-4-repo-1.png)
+
+Give the repository a name. Decide whether you want the code to be public (generally for open source projects or for your portfolio projects that you want people to know about), or private. Leave the README off for now, we'll add this later if we decide we need it.
+
+![A browser window showing the GitHub website with Create a new repository dialog open](images/github-4-repo-2.png)
+
+Once you create your repo, you will see some windows with some code. These are instructions for how to connect your local and remote repos. We already have an existing local repository, so we are interested in the lower set, to "push an existing repository from the command line".
+
+![A browser window showing the GitHub website with instructions to connect local and remote repos](images/github-4-repo-3.png)
+
+## Setting your upstream remote
+
+Now we will go back to our IDE. Copy the **first line** of the instructions. It should start with `git remote add`.
+
+We use the `git remote` command to control various aspects of our remote repo configuration. Under the hood, the `git remote` command alters the configuration file contents. Here we are going to add a reference to a remote repository. 
+
+The network address uses a format specific to Git, called a Git URL. It will look something like `git@github.com:jruedas1/awesome-site.git`. Since this is really long and hard to remember, Git implements aliases. Our command `git remote add origin git@github.com:jruedas1/awesome-site.git` means to add a reference to `git@github.com:jruedas1/awesome-site.git` with the alias `origin`. Origin is the default and traditional alias for the repository that a team pulls from and pushes to.
+
+![A WebStorm window showing a git remote add command, a git branch command, and a git push command](images/github-5-remote-1.png)
+
+After adding the remote reference, we want to make sure that our default branch is named `main`. Some versions of Git will name the default branch `master`. GitHub prefers the term `main`. Use the `git branch` command to see the name of the branch. If it is `master`, you should rename it to avoid conflicts with GitHub's default naming. Use the command `git branch -M main` to ensure the default branch is called `main`. 
+
 ## Pushing to a GitHub repo
 
-You are now ready to set up your repo on GitHub. 
+Finally, we are ready to *push* our code to GitHub. The first time we push, we use the command `git push -u origin main`. This means we want to push the `main` branch to the remote referenced by the alias `origin`. The `-u` argument means to set this push branch/remote combination as the default "upstream". From now on, `origin main` will be the default configuration, so we only need to enter `git push`. 
+
+Submit the command, and you should see output showing the transfer of Git's object store to the remote repository. 
+
+![A WebStorm window showing the output from a git push command](images/github-5-remote-2.png)
+
+Go back to GitHub and refresh the page. You should now see the repository contents. These are the two files you've committed so far, the `.gitignore` and the `index.html`. 
+
+## Cloning a repo
+
+
 
 ## Feature branches for team projects
 
@@ -168,7 +208,7 @@ You are now ready to set up your repo on GitHub.
 
 
 
-## Setting your upstream remote
+
 
 
 
