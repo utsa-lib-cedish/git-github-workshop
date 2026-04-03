@@ -242,9 +242,7 @@ You'll be asked if you trust the project or prefer to previews in safe mode. In 
 
 You are now the proud owner of a copy of the original repository. Note that this means not only the files, but also the commit history.
 
-![A WebStorm window showing a a project open with two files, and displaying the content of an html file. The terminal is open showing two commits as the op](images/clone-10.png)
-
-
+![A WebStorm window showing a a project open with two files, and displaying the content of an html file. The terminal is open showing two commits as the output of a git log commanbd](images/clone-11.png)
 
 ## Feature branches for team projects
 
