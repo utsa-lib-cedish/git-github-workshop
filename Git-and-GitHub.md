@@ -196,7 +196,53 @@ Submit the command, and you should see output showing the transfer of Git's obje
 
 Go back to GitHub and refresh the page. You should now see the repository contents. These are the two files you've committed so far, the `.gitignore` and the `index.html`. 
 
+![A browser window showing a GitHub repository view with two files](images/github-5-remote-3.png)
+
 ## Cloning a repo
+
+The next step in collaboration is for someone else to get a copy of your repo. This operation is called *cloning*. The clone operation is very simple with JetBrains IDEs and GitHub. We will also see how to clone a repo on the command line, which is very straightforward.
+
+Navigate to the GitHub repo you want to clone. Click on the green "Code" button. 
+
+![A browser window showing a GitHub repo and the cursor hovering over a Green button that reads "Clone"](images/clone-1.png)
+
+Ensure that the "SSH" option is selected, **not** HTTPS or GitHub CLI. Although Git does allow for HTTPS operations, GitHub strongly prefers SSH and you may not be able to clone over HTTPS.
+
+![A browser window showing a GitHub repo and the cursor hovering over the SSH option for a repository URL](images/clone-2.png)
+
+Copy the Git URL to your clipboard.
+
+![A browser window showing a GitHub repo and the cursor hovering over a copy icon with the text "Copy URL to clipboard" showing](images/clone-3.png)
+
+### Cloning with a JetBrains IDE
+
+Open your IDE. Click on "Clone Repository". If it opens to your last project, just close that project to get to this view.
+
+![A WebStorm window showing the option to clone a repository](images/clone-4.png)
+
+Click on the "Browse" button to select the destination folder for your project.
+
+![A WebStorm window showing an open file browser dialog. The option to create a new folder has been selected and the new folder is being named](images/clone-5.png)
+
+Once you've found where you want your project, create a new folder to hold the files. You can name it the same as the repo or give it a custom name.
+
+![A WebStorm window showing an open file browser dialog. The option to create a new folder has been selected and the new folder is being named](images/clone-7.png)
+
+Once you have the folder created, click "Open".
+
+![A WebStorm window showing an open file browser dialog. The cursor is hovering over the "Open" button](images/clone-8.png)
+
+You're ready to clone the repo now. Paste the copied Git URL in the "URL" form field and click "Clone".
+
+![A WebStorm window showing the Clone Repository dialog. The URL and Directory fields have been filled and the cursor hovers over a blue button that reads "Clone"](images/clone-9.png)
+
+You'll be asked if you trust the project or prefer to previews in safe mode. In this case, you are collaborating with a known small team on a web project, so it is safe to trust the project.
+
+![A WebStorm window showing a confirm dialog asking the user if they want to trust and open a project](images/clone-10.png)
+
+You are now the proud owner of a copy of the original repository. Note that this means not only the files, but also the commit history.
+
+![A WebStorm window showing a a project open with two files, and displaying the content of an html file. The terminal is open showing two commits as the op](images/clone-10.png)
 
 
 
