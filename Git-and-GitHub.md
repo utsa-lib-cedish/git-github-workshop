@@ -242,9 +242,33 @@ You'll be asked if you trust the project or prefer to previews in safe mode. In 
 
 You are now the proud owner of a copy of the original repository. Note that this means not only the files, but also the commit history.
 
-![A WebStorm window showing a a project open with two files, and displaying the content of an html file. The terminal is open showing two commits as the output of a git log commanbd](images/clone-11.png)
+![A WebStorm window showing a project open with two files, and displaying the content of an html file. The terminal is open showing two commits as the output of a git log commanbd](images/clone-11.png)
+
+### Cloning on the command line
+
+Cloning on the command line is even simpler. The CLI clone operation automatically creates a folder for you with the same name as the repository.
+
+![A Mac Terminal window showing the commands to change directory to the Sites directory, then the output of a git clone command, and a command to list the contents of the newly created directory](images/clone-12.png)
+
+Here, I navigated to the Sites directory, then just typed `git clone` and the Git URL for the repo I wanted to clone. I don't have to create the `awesome-site` directory, the clone operation will create it for me. After the objects have been transferred to my system, I can see that the directory has been created and it contains three things: an `index.html` file, a `.gitignore` file, and the `.git` directory.
+
+Note that this would not work if I already had a directory called `awesome-site` at this location in my file system. 
+
+Now I can open Webstorm and, instead of "New project" or "Clone repository", select "Open". 
+
+![A WebStorm window showing a cursor hovering over the option to open a project](images/clone-12b.png)
+
+Navigate to the location of the newly cloned repo in your file system.
+
+![A WebStorm window showing a file browser dialogue. The cursor hovers over the "Open" button](images/clone-14.png)
+
+You can open the project and you have access to all the files as well as the commit history.
+
+![A WebStorm window showing a project open with two files, and displaying the content of an html file. The terminal is open showing two commits as the output of a git log commanbd](images/clone-15.png)
 
 ## Feature branches for team projects
+
+
 
 ## Merging branches
 
