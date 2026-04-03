@@ -268,9 +268,141 @@ You can open the project and you have access to all the files as well as the com
 
 ## Feature branches for team projects
 
+For team collaboration on development projects, it is important not to do original work on the main branch. Instead, to avoid code conflicts and other problems, it is best practice to work in feature branches. This is called the feature branch workflow.
 
+It is helpful to understand how commits are related. In Git, each commit is an object. Git calculates a SHA1 hash for the commit object and you can reference any commit by its hash. In addition, each commit knows its parent commit (except the root commit, which has no parent).
+
+For example, in our current project, we have two commits. I can see the contents of the object referenced by a hash using the `git cat-file -p` command. The `-p` argument means "pretty-print" the contents. If I just want to know what type of object it is, I use the `-t` argument for "type".
+
+![A WebStorm window showing a project open with two files. The terminal shows the output of a git cat-file -p command and a git cat-file -t command](images/branching-1.png)
+
+Notice here the output of `git cat-file -t 6fb456d` is "commit". This tells us the object referenced by the hash that starts with 6fb45d is a commit object. When we look at the output of the `git cat-file -p` command we see that it references a tree object, a parent commit, an author, and a committer, and also has the commit message. 
+
+The parent commit, referenced by the hash that starts with eb918, is the root commit. The tree object in this case is just a listing of the files in the project. Each file is stored as a blob object. 
+
+![A WebStorm window showing a project open. The terminal shows the output of a git cat-file -p command with the contents of a tree object](images/branching-2.png)
+
+This is basically how Git preserves project states: files are stored as blob objects, the working directory structure is preserved as one or more tree objects, and the commit points to one tree. The commit also points to its parent commit.
+
+When we create a branch, we create an alternative commit history parallel to and independent of the main branch commit history. Think of a commit history as a sequence of commits. In our current repo state, there is only one branch. Each commit is a child of the previous commit. There is only one line of commits.
+
+![A diagram showing two circles with a line connecting them. Each circle is labeled with a commit message and a hash code. The root commit is at the top.](images/branching-3a.png)
+
+When we create a branch, we create a situation where it is possible for several commits to have the same parent.
+
+To create a commit, use the command `git branch name-of-branch`. Then switch to that branch by typing `git switch name-of-branch`. In practice, you usually want to switch to any branch you create when you create it, so there is a shortcut: `git switch -c name-of-branch`. 
+
+Let's assume the person who cloned my repo is going to work on visual design. They could create a branch called `site-style`. 
+
+![A WebStorm window showing a project open. The terminal shows the output of a git switch -c command: "Switched to a new branch 'site-style'"](images/branching-4.png)
+
+The designer creates a file called `style.css`. The IDE immediately asks if the designer wants to add the new file to Git. The designer says no. Keep in mind we answered this earlier, but that was in a different repository, and a different WebStorm project, so that setting is not in this project. 
+
+![A WebStorm window showing a project open. A file called 'style.css' has just been created. A dialog is open asking if the file should be added to Git. The cursor hovers over 'cancel' and the box for "Don't ask again" is checked](images/branching-5.png)
+
+Now the designer works on the site styles. Once they've reached a certain point in their work, they add the file to the index and commit. 
+
+![A WebStorm window showing code added to a style sheet. The terminal shows the output of a git status, git add, and git commit commands](images/branching-6.png)
+
+Meanwhile, the project founder continues to work on content. Best practice, now that there is a team and everyone is working on different parts of the application, is for everyone to work on branches and no one to work on main anymore.
+
+So the founder creates a branch called `content` and switches to it. 
+
+![A WebStorm window showing code on an index.html page. The terminal shows the output of a git status and git switch -c content commands](images/branching-7.png)
+
+The founder, now content author, develops new content and makes a commit.
+
+![A WebStorm window showing new code on an index.html page. The terminal shows the output of git status, git add, and git commit commands](images/branching-8.png)
+
+Now we have two divergent project histories. Here's the project history in the content author's repo:
+
+![A WebStorm window showing the output of a git log command, with three commits: initialize repo, Add website content, and update content with links to sources](images/branching-10.png)
+
+Here is the project history in the designer's repo: 
+
+![A WebStorm window showing the output of a git log command, with three commits: initialize repo, Add website content, and add site styles](images/branching-9.png)
+
+Let's visualize the project history.
+
+![A diagram showing two circles with a line connecting them, then two lines lead out of the second circle to two different circles. Each circle is labeled with a commit message and a hash code. The root commit is at the top.](images/branching-11.png)
 
 ## Merging branches
+
+Now the content author decides it's time to share their code with the designer. They need to merge the contents of the two branches. There are several different approaches possible. For simplicity's sake, we'll demonstrate merging the content of the feature branch to the main branch.
+
+The content author switches back to the main branch. Notice that the content generated in the `content` branch is not there any more. The terminal has a message stating that this main branch is up to date with the `origin/main` branch, which is the main branch on the remote repo. Just to double-check, the content author issues a `git fetch` command. This command updates the local repo about any changes to the remote repo involving branches that also exist locally -- in this case, just the main branch.
+
+![A WebStorm window with the terminal showing the output of git switch main and git fetch commands](images/branching-12.png)
+
+Now, the content author *merges* the contents of the `content` branch into the `main` branch. The command for this is `git merge name-of-branch-to-be-merged`. Git decides what kind of merge it will carry out; if it can't make up its mind it will ask. In this case, it carries out what's called a 'Fast-forward' merge. From Git's perspective, this is easy. Everything that is in the current branch (main) is already present in the other branch (content). Both commits in the main branch are already in the content branch. All Git has to do is 'fast forward' the main branch to the same state as the content branch. 
+
+Notice, when I run `git status` now, the output tells me I am on the main branch, and my content is 1 commit ahead of the remote main branch. A `git log` command shows me that the commit history on the main branch has been updated and I now have 3 commits on that branch. 
+
+![A WebStorm window with the terminal showing the output of git status and git log commands](images/branching-12b.png)
+
+Now I can *publish* the changes by pushing them to the remote repo. 
+
+![A WebStorm window with the terminal showing the output of a git push command](images/branching-14.png)
+
+If I go to GitHub and inspect the contents of the `index.html` page there, I will see that the content has been updated.
+
+![A browser window showing the contents of an index.html page in a GitHub repo](images/branching-15.png)
+
+Here's a visualization of the project history so far.
+
+![A diagram showing two circles with a line connecting them, then two lines lead out sideways from the second circle to two different circles, one on the left and one on the right. A third line leads from the second circle to a circle at the bottom of the diagram. A dashed line leads from the left-hand circle, labeled "add content" to the bottom-most circle, which is also labeled "add content"](images/branching-16.png)
+
+Now let's go back to the designer's copy of the repo. Let's say the designer has also decided to publish their changes. The proper procedure will be shown below, but for now let's illustrate a workflow in which every team member merges their content to main locally and then pushes their version of the main branch. This will help us to understand the process of creating feature branches and merging them back into the main branch.
+
+Before merging to main, the designer needs to make sure that their main branch is up to date with the remote main. So they run the `git fetch` command. The `git fetch` command will update their *remote tracking branches*. A remote tracking branch is a branch on a local repo that is set to track a remote branch. This branch, called `origin/main`, was created automatically during the clone operation that created this repo. 
+
+If the local main was up to date with the remote main, there would be no output to the `git fetch` command. Intstead, I can see that it downloads some objects and puts them on the `origin/main` branch. This tells me that my local main is not up to date with the remote main. So the designer switches to the main branch and prepares to update their local main.
+
+Notice that in the main branch, the `styles.css` file does not exist, and the content of the `index.html` branch is not up to date with the latest content pushed by the content author.
+
+![A WebStorm window with the terminal showing the output of git status and git fetch commands. Then it shows that the output of a git switch main command is "Your branch is behind origin/main by 1 commit, and can be fast-forwarded. (use "git pull" to update your local branch)](images/branching-17.png)
+
+A `git pull` command can pull the contents of the remote into the local repo. 
+
+Note that `git pull` is really a two-step operation under the hood. It runs `git fetch` -- which as we have seen here, updates `origin/master`, and then it runs `git merge origin/master`. We could also just run `git merge origin/master` right now, because we *already* ran `git fetch` and so our `origin/master` is up to date with the remote master. But it is more usual to use `git pull`. Many people don't bother with `git fetch` at all, but it is helpful to know the command and understand that you can fetch remote content to your 'local' remote tracking branch without merging it.
+
+![A WebStorm window with the terminal showing the output of git pull command](images/branching-18.png)
+
+Now the designer's local main branch is up to date with the remote branch and synchronized with the content author's repo. It is time to merge the new styles into the main branch.
+
+The designer enters `git branch` to list the names of the branches, then `git merge site-style` to merge the style content into the main branch. The terminal enters a text editor to enter a commit message.
+
+By default, this text editor is vim. This can be changed in the git configuration file. 
+
+Why are we having to enter this message here, when we did not have to in merging the the content to main branches in the content author's repo? It's because we can't do a fast-forward merge here. There is a commit in main now that is not in the site-style branch. Because of that, Git has to merge the histories as well as the content. When this happens, Git treats the merge as a commit and requires a commit message. 
+
+Press the `i` key to enter Insert mode. Then add any further information you might want to communicate to the team about the reasoning behind the merge. 
+
+![A WebStorm window with the terminal open to the vim text editor, in insert mode, with the default message "Merge branch 'site-style'" and instructions to enter the commit message](images/branching-19.png)
+
+Once you've entered your commit message, press `esc` to exit insert mode and enter command mode. Then enter `:wq` to write the changes to disk and quit the text editor. Hit enter.
+
+![A WebStorm window with the terminal open to the vim text editor, in command mode, with an extended commit message and the vim command :wq ready to enter](images/branching-20.png)
+
+We can now see the output of our `git merge` command.
+
+![A WebStorm window with the terminal showing the output of the git merge command, saying the merge was made by the 'ort' strategy and that 13 insertions were made on the style.css file](images/branching-21.png)
+
+Notice Git did not use the fast-forward merge, it used its more complex optimized recursive tree strategy ('ort'), a very efficient and intelligent way of merging divergent histories.
+
+Notice the latest commit in this repo ("add site styles") did not get tacked onto the end of the history, it got placed before the last content commit. Git decides what is the most reasonable way to order the history; in this case it could have gone either way. Sometimes you will see commits out of chronological order. 
+
+![A WebStorm window with the terminal showing the output of a git log command](images/branching-22.png)
+
+Now the designer can share their work by pushing to the remote repo: `git push`. The remote now has the style sheet. 
+
+![A browser window showing the contents of a GitHub repo with three files, .gitignore, index.html, and styles.css](images/branching-23.png)
+
+The content author can now pull the new contents of the main branch. Normally I would `git fetch` to see if there have been any changes. Here, though, I show that you can also just issue `git pull`. This will combine `git fetch` and `git merge origin/main` in one command.
+
+![A WebStorm window with the terminal showing the output of a git pull command](images/branching-24.png)
+
+All the repositories are now synchronized.
 
 ## Handling merge conflicts
 
