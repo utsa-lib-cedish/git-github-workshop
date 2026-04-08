@@ -1,5 +1,24 @@
 # Remote collaboration with Git and GitHub
 
+## Contents
+
+- [Git](#git)
+- [Install](#install)
+- [Commits](#commits)
+- [GitHub](#github)
+- [GitHub Credentials](#github-credentials)
+- [SSH Keys on a Mac](#ssh-keys-on-a-mac)
+- [SSH Keys on Windows](#ssh-keys-on-windows)
+- [Add the SSH Key to Your GitHub Account](#add-the-ssh-key-to-your-github-account)
+- [Creating a GitHub Repo](#creating-a-github-repo)
+- [Setting Your Upstream Remote](#setting-your-upstream-remote)
+- [Pushing to a GitHub Repo](#pushing-to-a-github-repo)
+- [Cloning a Repo](#cloning-a-repo)
+- [Cloning With a JetBrains IDE](#cloning-with-a-jetbrains-ide)
+- [Cloning on the Command Line](#cloning-on-the-command-line)
+- [Feature Branches](#feature-branches)
+- [Merging Branches
+
 ## Git
 
 Git is the world's foremost Version Control System (VCS). This is a tool that tracks different versions of a code base as a project undergoes development. It keeps track of everyone's work, who is doing what, and what is or isn't included in the main project. It is at the same time a repository of file states, a project history, a tool for teamwork on complex products, and a backup system enabling recovery of past states if something goes wrong.
@@ -120,11 +139,11 @@ Now when I run `git log` again, I can see both commits.
 
 From now on my workflow will involve checking the index, staging changes, and committing my work to the repo.
 
-# GitHub
+## GitHub
 
 If we want to work collaboratively in a team, we need to share our repo. The simplest and most common way to do that is through GitHub. GitHub was started originally to facilitate collaboration on open source projects, but it was so useful that private companies started using it for their own collaborative development projects.
 
-## GitHub credentials
+### GitHub credentials
 
 To log in to GitHub you just need an account with a password, although 2FA is always good to have. However, to do a *push* (a repo upload or update), GitHub prefers the SSH protocol, so you need to have an SSH key and share the public key with GitHub.
 
@@ -144,7 +163,7 @@ Copy your *public* key signature to your clipboard. Use this command: `pbcopy < 
 
 ![A Mac Terminal window showing the commands to change directory to the ssh key directory, list the contents, and copy the contents of an ssh key to the clipboard](images/github-2-ssh-2a.png)
 
-### SSH keys on a Windows
+### SSH keys on Windows
 
 On a Windows system, open a PowerShell. Select "Run as Administrator". 
 
