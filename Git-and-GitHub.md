@@ -17,7 +17,8 @@
 - [Cloning With a JetBrains IDE](#cloning-with-a-jetbrains-ide)
 - [Cloning on the Command Line](#cloning-on-the-command-line)
 - [Feature Branches](#feature-branches)
-- [Merging Branches
+- [Merging Branches](#merging-branches)
+- [Handling Merge Conflicts](#handling-merge-conflicts)
 
 ## Git
 
@@ -147,7 +148,7 @@ If we want to work collaboratively in a team, we need to share our repo. The sim
 
 To log in to GitHub you just need an account with a password, although 2FA is always good to have. However, to do a *push* (a repo upload or update), GitHub prefers the SSH protocol, so you need to have an SSH key and share the public key with GitHub.
 
-### SSH keys on a Mac
+#### SSH keys on a Mac
 
 On a Mac, open a Terminal window. You can click on the magnifying glass on the top right of the menu bar to open the Mac Spotlight feature. Type Terminal to get to a Terminal icon and double click it or hit the return key to open it.
 
@@ -163,7 +164,7 @@ Copy your *public* key signature to your clipboard. Use this command: `pbcopy < 
 
 ![A Mac Terminal window showing the commands to change directory to the ssh key directory, list the contents, and copy the contents of an ssh key to the clipboard](images/github-2-ssh-2a.png)
 
-### SSH keys on Windows
+#### SSH keys on Windows
 
 On a Windows system, open a PowerShell. Select "Run as Administrator". 
 
@@ -189,7 +190,7 @@ Then enter the command `ssh-add` followed by the path to the ssh key you just cr
 
 ![A Windows Powershell open with the commands to start the ssh-agent and add a key to it](images/github-3-ssh-10.png)
 
-### Add the SSH key to your GitHub account
+#### Add the SSH key to your GitHub account
 
 Now that you have generated an SSH key, you need to add it to your GitHub account. First navigate to your Account Settings. 
 
@@ -207,7 +208,7 @@ Name your SSH key. SSH keys are specific to devices, so I usually name mine with
 
 ![A browser window showing the GitHub website with the cursor hovering over the SSH and GPG keys link](images/github-3-ssh-8.png)
 
-## Creating a GitHub repo
+### Creating a GitHub repo
 
 You are now ready to set up your repo on GitHub. Click on the plus sign and select "New repository".
 
@@ -221,7 +222,7 @@ Once you create your repo, you will see some windows with some code. These are i
 
 ![A browser window showing the GitHub website with instructions to connect local and remote repos](images/github-4-repo-3.png)
 
-## Setting your upstream remote
+### Setting your upstream remote
 
 Now we will go back to our IDE. Copy the **first line** of the instructions. It should start with `git remote add`.
 
@@ -233,7 +234,7 @@ The network address uses a format specific to Git, called a Git URL. It will loo
 
 After adding the remote reference, we want to make sure that our default branch is named `main`. Some versions of Git will name the default branch `master`. GitHub prefers the term `main`. Use the `git branch` command to see the name of the branch. If it is `master`, you should rename it to avoid conflicts with GitHub's default naming. Use the command `git branch -M main` to ensure the default branch is called `main`. 
 
-## Pushing to a GitHub repo
+### Pushing to a GitHub repo
 
 Finally, we are ready to *push* our code to GitHub. The first time we push, we use the command `git push -u origin main`. This means we want to push the `main` branch to the remote referenced by the alias `origin`. The `-u` argument means to set this push branch/remote combination as the default "upstream". From now on, `origin main` will be the default configuration, so we only need to enter `git push`. 
 
