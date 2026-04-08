@@ -19,6 +19,7 @@
 - [Feature Branches](#feature-branches)
 - [Merging Branches](#merging-branches)
 - [Handling Merge Conflicts](#handling-merge-conflicts)
+- [Pulling from GitHub](#pulling-from-github)
 
 ## Git
 
@@ -444,7 +445,103 @@ This is the content in the branch I'm merging
 
 The word *HEAD* is a Git reference to the last commit on the current branch. So it always means "current branch". The starting merge marker lines will almost always say *HEAD*. The ending merge marker lines will have the name of the branch the content is from. The equals signs mark the dividing line between the version of the content in each branch. 
 
-## Pushing a branch to GitHub
+## Pulling from GitHub
+
+Now all the pieces are in place for a fully collaborative feature branch workflow. Let's go back to our cloned repo. Assume that the repo was cloned by our designer. In addition we have a content author. We might also have something like a web programmer, and in more complex projects many more team members.
+
+In a collaborative framework, whenever there is work to be shared with the team, it should be pushed. Here we are ready to start a feature branch workflow, so we should push the main branch. In the future, we will mainly push feature branches.
+
+![A WebStorm window with the output of a git push command](images/branch-workflow-1.png)
+
+Next, our designer will update their repo by pulling from GitHub. The first time this is done, Git may ask you to define a strategy for reconciling differences. You can choose to merge, to rebase, or to restict yourself to fast-forward merges only. 
+
+![A WebStorm window with the output of a git pull command asking the user to specify how to reconcile civergent branches.](images/branch-workflow-2.png)
+
+Rebasing will take the remote changes and just tack them on to the end of your commit history. Selecting "fast-forward" only will only allow merges in which your current branch's history is completely contained in the other branch's history. It will not work if you have added commits in your current branch that are not in the other branch.
+
+For our workflow, we want Git to merge, not rebase, and we don't want to restrict ourselves to fast-forward only. So we need to set the Git configuration to merge divergent branches after pull operations.
+
+I pull, and have merge conflicts in `index.html` and `style.css`. Here, I know for sure that I want to take the remote content over my local content, so the resolution should be simple.
+
+![A WebStorm window with the output of a git config command and a git pull command, showing merge conflicts in two files](images/branch-workflow-3.png)
+
+I start with `index.html`. First I locate the content that is local to me. This begins where the less than merge marker lines are (`<<<<<<< HEAD`) and ends where the equals signs are.
+
+![A WebStorm window the index.html page with merge markers showing the local content](images/branch-workflow-4.png)
+
+I highlight the local content that I want to replace. I include the merge marker lines.
+
+![A WebStorm window the index.html page with merge markers showing the local content between less than signs and equals signs, highlighted for deletion](images/branch-workflow-5.png)
+
+I delete the local version, since I know I want the remote version. Now I just have to remember to scroll down to find the last merge marker line and delete it.
+
+![A WebStorm window the index.html page with merge markers showing all the content from the HEAD gone and the closing merge marker line highlighted](images/branch-workflow-6.png)
+
+My `index.html` file is up to date with the remote. If I wanted, I could do `git add index.html` now, but I will do that all at once when I have resolved all conflicts.
+
+![A WebStorm window the index.html page with merge markers showing all conflicts in the index.html file resolved](images/branch-workflow-7.png)
+
+I switch to the `style.css` file. I will use the same strategy of preferring the remote content over my local content, which makes resolution simple. First I highlight all the content from my current branch, labeled "HEAD" and located between the less than and equals-sign merge marker lines.
+
+![A WebStorm window the style.css page open and the content between the less than and equals sign merge marker lines highlighted](images/branch-workflow-8.png)
+
+I delete all my local content.
+
+![A WebStorm window the style.css page open and all the content between the less than and equals sign merge marker lines deleted](images/branch-workflow-9.png)
+
+I scroll down to find the closing merge marker line.
+
+![A WebStorm window the style.css page open and all the closing merge marker line with greater than signs highlighted](images/branch-workflow-10.png)
+
+I'm done with my conflict resolution. I run `git status` to make sure.
+
+![A WebStorm window the style.css page open and the terminal showing the output of the git status command](images/branch-workflow-11.png)
+
+I stage the two files that had conflicts, then run `git commit` without the `-m` argument, so I can enter the text editor and work with Git's default merge message.
+
+![A WebStorm window the style.css page open and the terminal showing the output of git add, and a git commit command entered but not run](images/branch-workflow-12.png)
+
+I uncomment some of the lines from the commit message so as to preserve the history of where I fixed conflicts.
+
+![A WebStorm window the style.css page open and the terminal showing a text editor open and a merge commit message](images/branch-workflow-12a.png)
+
+I'm all done with merge conflict resolution. It is really a lot simpler than many people think to go through these and resolve the conflicts.
+
+If I am absolutely sure that I want to accept the remote content, and in every case override my local content, there is another strategy I can use.
+
+Here's another pull where I run into a merge conflict with the `style.css` file. Instead of manually resolving it, I say `git checkout --theirs style.css`. This automatically updates the content of `style.css` in my working directory to the remote branch, or to the branch that I am merging into my current branch -- the "other" content, not mine.
+
+![A WebStorm window the style.css page open and the terminal showing a git pull command, with a merge conflict in style.css, and a git checkout --theirs command issued](images/branch-workflow-14.png)
+
+Now I can just add and commit as before. I don't have to resolve the conflicts manually, edit the files, or remove the merge marker lines. Simple.
+
+Although `git checkout --theirs` and its opposite, `git checkout --ours`, are huge time-savers, it is essential when working with Git to be comfortable with manual resolution of merge conflicts, since you may not always be certain what version needs to be preserved.
+
+## Pushing a branch
+
+Now my designer has the current content of the project and is ready to start working. The first thing to do is to switch to a feature branch. They already have such a branch, `site-style`. They can switch to it with a `git switch site-style` command. If they didn't already have the branch, they could create it using `git switch -c site-style`. 
+
+![A WebStorm window the style.css page open and the terminal showing output from a git status and git branch command](images/branch-workflow-15.png)
+
+When they switch to the `site-styles` branch, this branch is not up to date with the main that they just pulled. They update it by merging main into it.
+
+![A WebStorm window the style.css page open and the terminal showing output from a git switch command](images/branch-workflow-16.png)
+
+![A WebStorm window the style.css page open and the terminal showing output from a git switch command](images/branch-workflow-17.png)
+
+They make some changes to the style sheet, stage the changes, and commit.
+
+![A WebStorm window the style.css page open and the terminal showing the output of git status, git add, and git commit commands](images/branch-workflow-18.png)
+
+Now, it is good practice to make sure there aren't going to be any merge conflicts when I share with the team. To do that I need to merge main into my branch. If I can merge main into my branch, there won't be any conflict when someone else merges my branch into main.
+
+![A WebStorm window the style.css page open and the terminal showing the output of git merge main: "Already up to date."](images/branch-workflow-19.png)
+
+No problems here. I am ready to share my work with the team. I push my branch to GitHub. Instead of the usual `git push`, which by default would do `git push origin main`, I need to be specific. I need to say I want to push my `site-style` branch to the remote that has the alias `origin`. The command for this is `git push origin site-style`.
+
+![A WebStorm window the style.css page open and the terminal showing the output of git push origin site-style](images/branch-workflow-20.png)
+
+Notice it offers me a link to click on to make a pull request ... let's click on that link and make our pull request!
 
 ## The pull request
 
