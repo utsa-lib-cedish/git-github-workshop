@@ -654,6 +654,6 @@ Then I switch back to the content branch to continue working on my awesome site 
 
 I can now do `git push origin content` and start a pull request for my new content.
 
-![A WebStorm window showing the terminal output for a git reset --hard command](images/oops-6.png)
+![A WebStorm window showing the terminal output for a git push origin content command](images/oops-7.png)
 
 
