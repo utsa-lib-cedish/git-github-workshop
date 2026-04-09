@@ -20,6 +20,7 @@
 - [Merging Branches](#merging-branches)
 - [Handling Merge Conflicts](#handling-merge-conflicts)
 - [Pulling from GitHub](#pulling-from-github)
+- [Pushing a Branch](#pushing-a-branch)
 
 ## Git
 
@@ -537,12 +538,63 @@ Now, it is good practice to make sure there aren't going to be any merge conflic
 
 ![A WebStorm window the style.css page open and the terminal showing the output of git merge main: "Already up to date."](images/branch-workflow-19.png)
 
-No problems here. I am ready to share my work with the team. I push my branch to GitHub. Instead of the usual `git push`, which by default would do `git push origin main`, I need to be specific. I need to say I want to push my `site-style` branch to the remote that has the alias `origin`. The command for this is `git push origin site-style`.
+No problems here. If there were any problems I would just want to resolve them locally before sharing my work.
+
+
+I am ready to share my work with the team. I push my branch to GitHub. Instead of the usual `git push`, which by default would do `git push origin main`, I need to be specific. I need to say I want to push my `site-style` branch to the remote that has the alias `origin`. The command for this is `git push origin site-style`.
 
 ![A WebStorm window the style.css page open and the terminal showing the output of git push origin site-style](images/branch-workflow-20.png)
 
 Notice it offers me a link to click on to make a pull request ... let's click on that link and make our pull request!
 
 ## The pull request
+
+GitHub's "pull request" system is a popular and useful tool to submit code for inclusion in projects. A developer pushes their work in a branch and request that the branch be merged into the main project.
+
+When our designer clicks on the pull request link, they will see a web interface like this:
+
+![A GitHub page showing a dialogue to open a pull request](images/pull-request-1.png)
+
+Notice under "Open a pull request" there is a section that shows the branches that are going to be merged. In this case it says "base: main" and has an arrow pointing to that from "compare: site-style". This tells us that the request is for the `site-style` branch to be merged into the `main` branch.
+
+Notice also the message: "Able to merge. These branches can be automatically merged. This is to be expected because we tested for merge conflicts locally.
+
+Underneath that is a dialogue to add a title and a description. You can describe the changes there. 
+
+![A GitHub page showing the pull request diaolgue with the description field filled out](images/pull-request-2.png)
+
+Below that is a visualization of the *diff* or difference between the main and the site-style branches. On the left it shows the current state of the main branch, with some parts highlighted in red. These are the parts that will be removed after the merge. On the right is the current state of the branch to be merged, with new content highlighted in green.
+
+![A GitHub page showing the difference between the base branch and the branch to be merged, side by side](images/pull-request-3.png)
+
+Once our designer is satisfied that the pull request is set up correctly, they can press the green button to "Create pull request". 
+
+![A GitHub page showing the pull request dialogue and a cursor hovering over the green gutton to create a pull request](images/pull-request-4.png)
+
+Now that the pull request has been submitted, the PR (pull request) page changes to show a "conversation" tab that starts with the designer's comments and a green box that says "No conflicts with base branch" and a button to "Merge pull request".
+
+![A GitHub page showing the pull request conversation tab and a green button to merge a pull request](images/pull-request-5.png)
+
+Below that is a section to "Add a comment". Here is where team members can do code review prior to merging. If the request seems straightforward no comments may be necessary. But here is where the team can have a conversation about whether or not the changes fit team objectives, whether the code is well written, or if it needs changes or improvements.
+
+![A GitHub page showing the pull request conversation tab and the box labeled "Add a comment"](images/pull-request-6.png)
+
+In this case, I am just going to merge the pull request. Keep in mind that it is best practice for someone not to merge their own pull request. Usually a team will have some sort of process in place for pull request approval. Notifications will be received when a pull request is made, and when comments are made, and someone should be in charge of going through the PR queue to make sure they are approved or commented on on a timely basis.
+
+It is often desirable to set up "branch protection rules" that prevent direct pushes to main and require approvals for merging PRs. These can be set up in the repo settings under Code and Automation -> Rules -> Rulesets -> New Ruleset.
+
+![A GitHub page showing the the repo settings page open and a new ruleset being created to protect the main branch](images/pull-request-7.png)
+
+A common rule pattern is to require a pull request before merging to main, to require more than one approval (so no one can merge their own PRs) and to block force pushes.
+
+![A GitHub page showing the the repo settings page open and a new ruleset being created to protect the main branch](images/pull-request-8.png)
+
+For demonstration purposes, we won't actually create a rule here but we will go ahead and merge the pull request. After clicking on "Merge pull request", a commit message dialogue opens. A merged PR becomes a commit.
+
+![A GitHub page showing the pull request commit dialogue and the cursor hovering over the "Confirm merge" button](images/pull-request-9.png)
+
+After clicking "confirm merge", the pull request is successfully merged and closed. The new styles have been incorporated to the GitHub repo's main branch and the commit history updated.
+
+![A GitHub page showing the pull request successfully merged and closed](images/pull-request-11.png)
 
 ## Pulling the updated code
