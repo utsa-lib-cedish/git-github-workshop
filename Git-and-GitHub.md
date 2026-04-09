@@ -4,6 +4,7 @@
 
 - [Git](#git)
 - [Install](#install)
+- [Your Git Repo and the Git Index](#your-git-repo-and-the-git-index)
 - [Commits](#commits)
 - [GitHub](#github)
 - [GitHub Credentials](#github-credentials)
