@@ -22,6 +22,8 @@
 - [Pulling from GitHub](#pulling-from-github)
 - [Pushing a Branch](#pushing-a-branch)
 - [Pull Requests](#pull-requests)
+- [Pulling the Updated Code](#pulling-the-updated-code)
+- [Oops I Worked in Main](#oops-I-worked-in-main)
 
 ## Git
 
@@ -599,4 +601,59 @@ After clicking "confirm merge", the pull request is successfully merged and clos
 ![A GitHub page showing the pull request successfully merged and closed](images/pull-request-11.png)
 
 ## Pulling the updated code
+
+The next step in a collaborative workflow is for the other team members to update their code base. Let's say I'm the content author and I want to add content but I want to work with the styled version so I can see how it will look.
+
+When I first open my IDE and check my `git status`, Git tells me I am up to date with origin/main. We happen to know this isn't accurate, so why is Git telling me this?
+
+![A WebStorm window showing the terminal output for a git status command](images/pulling-1.png)
+
+If I do a `git branch -a` command, it shows me not only my main branch and my own style feature branch, but also two other Git refs. These are `remotes/origin/main` and `remotes/origin/HEAD`, which points to `origin/main`. These point to the same *remote tracking branch*. The remote tracking branch is a bit of a misnomer, it's actually local to your repo, but it's set to track the remote main branch. This was set up automatically by Git when you first set up your remote configuration.
+
+![A WebStorm window showing the terminal output for a git branch -a command, revealing the remote tracking branches](images/pulling-2.png)
+
+What is happening here is that your "local" remote tracking branch does not yet know about the changes to the remote main branch. You can update it with the `git fetch` command.
+
+![A WebStorm window showing the terminal output for git fetch and git status commands](images/pulling-3.png)
+
+Notice my git fetch command updates my local Git object store. Now, when I run `git status`, Git tells me my branch is behind origin/main by 4 commits. It also tells me it can be fast-forwarded. As we learned earlier, this is the simplest type of merge and doesn't require any merge commit. It will just update the history of my local main branch. The output also tells me I am on the main branch right now and I can use "git pull" to update my local branch. I will go ahead and do that.
+
+![A WebStorm window showing the terminal output for git pull](images/pulling-3.png)
+
+After my `git pull` command my repo is up to date with the remote and the content of my style sheet is current. 
+
+## Oops I worked in main
+
+I will now commit a common mistake. After pulling I will get to work on my own feature but I will forget to do it in a feature branch. I will just work on main and commit to main and I won't realize it until I've made one or two commits and I'm ready to push my branch -- and then I'll realize I'm not on a feature branch, I'm on main.
+
+![A WebStorm window showing the terminal output for multiple git add and git commit commands](images/oops-1.png)
+
+Here the content author intended to work in a branch called "content" but just forgot to create the branch and switch to it. Now when they go to push they realize they are on main. What to do? 
+
+If I worked accidentally on main, what I will do when I realize it is switch to the branch I intended to work on. In this case I need to create it also. When I create the new branch, it is automatically set to the content of the branch I switch from. So all the content I just created and the commits I made will be in the new branch.
+
+![A WebStorm window showing the terminal output for a git switch -c command](images/oops-2.png)
+
+If I already had the content branch, then I would have to do `git switch content` and `git merge main`. This would carry the new content I created from main into the content branch.
+
+Now I can go back to the main branch and *reset* it to where it was before I started committing. I check my log to see the commit history and identify the commit prior to when I started working in main. 
+
+![A WebStorm window showing the terminal output for a git log command](images/oops-3.png)
+
+I see that the commit prior to when I started working has a SHA1 hash starting with 304ff9b. That's the one I will use. The command for a full restore to that state is `git reset --hard 304ff9b`. Make sure you are in main before doing this. Run `git status`. Here I run `git status` and realize I am in my feature branch. So I switch to main. 
+
+![A WebStorm window showing the terminal output for git status and git switch main commands](images/oops-4.png)
+
+Now I can reset the main branch.
+
+![A WebStorm window showing the terminal output for a git reset --hard command](images/oops-5.png)
+
+Then I switch back to the content branch to continue working on my awesome site content. 
+
+![A WebStorm window showing the terminal output for a git reset --hard command](images/oops-6.png)
+
+I can now do `git push origin content` and start a pull request for my new content.
+
+![A WebStorm window showing the terminal output for a git reset --hard command](images/oops-6.png)
+
 
