@@ -21,6 +21,7 @@
 - [Handling Merge Conflicts](#handling-merge-conflicts)
 - [Pulling from GitHub](#pulling-from-github)
 - [Pushing a Branch](#pushing-a-branch)
+- [Pull Requests](#pull-requests)
 
 ## Git
 
@@ -547,7 +548,7 @@ I am ready to share my work with the team. I push my branch to GitHub. Instead o
 
 Notice it offers me a link to click on to make a pull request ... let's click on that link and make our pull request!
 
-## The pull request
+## Pull requests
 
 GitHub's "pull request" system is a popular and useful tool to submit code for inclusion in projects. A developer pushes their work in a branch and request that the branch be merged into the main project.
 
@@ -598,3 +599,4 @@ After clicking "confirm merge", the pull request is successfully merged and clos
 ![A GitHub page showing the pull request successfully merged and closed](images/pull-request-11.png)
 
 ## Pulling the updated code
+
